@@ -40,4 +40,11 @@ $ npm run test:cov
 # start Postgres DB docker  continer
 $ docker-compose up -d
 
+# primsa commands
+$ npx prisma --help
+
+
+# fresh migrate DB (dev only)
+$ npx prisma migrate dev
+
 ```
