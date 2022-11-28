@@ -47,4 +47,9 @@ $ npx prisma --help
 # fresh migrate DB (dev only)
 $ npx prisma migrate dev
 
+
+# create Module, Service, Controller
+$ nest g module product
+$ nest g service product --no-spec
+$ nest g controller product
 ```
