@@ -10,44 +10,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
-  id Int @id @default(autoincrement())
+model User {
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  email String
-  hash String
+  email String @unique
+  hash  String
 
   firstName String?
-  lastName String?
-   
+  lastName  String?
+  orders    Order[]
 }
 
-model Product{
-  id Int @id @default(autoincrement())
+model Product {
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  name String
+  name        String
   description String
-  image String?
-     
+  image       String?
 }
 
-model Order{
-  id Int @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user_id Int
-  total Float
-   
+model Order {
+  id         Int         @id @default(autoincrement())
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  userId     Int
+  user       User        @relation(fields: [userId], references: [id])
+  total      Float
+  orderItems OrderItem[]
 }
 
-model OrderItem{
-  id Int @id @default(autoincrement())
+model OrderItem {
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  order_id Int
-   
+  orderId Int
+  order   Order @relation(fields: [orderId], references: [id])
 }
