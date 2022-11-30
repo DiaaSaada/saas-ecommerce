@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { Request } from "express";
+import {GetUser}  from './../auth/decorator/get-user.decorator'
 
 
 @Controller('users')
@@ -10,8 +11,8 @@ export class UserController{
 
     @UseGuards(AuthGuard('jwt'))
     @Get('me')
-    signup(@Req() req: Request){ 
-        return req.body ;
+    signup(@GetUser() user){ 
+        return user ;
     }
 
 
