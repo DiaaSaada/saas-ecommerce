@@ -3,11 +3,17 @@ import { ForbiddenException, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import { LoginDto, SignupDto } from "./dto";
 import * as argon2 from "argon2";
+import { ConfigService } from "@nestjs/config";
+import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
 export class AuthService {
 
-    constructor(private prisma: PrismaService) {
+    constructor(
+        private prisma: PrismaService,
+        private jwt: JwtService,
+        private config: ConfigService
+    ) {
 
     }
 
@@ -20,10 +26,21 @@ export class AuthService {
         const pwMatch = await argon2.verify(user.hash, dto.password)
         if (!pwMatch)
             throw new ForbiddenException('Incorect Creditntials');
-        
-        delete user.hash
-        return user
 
+        delete user.hash
+        return this.signJWT(user.id, user.email);
+    }
+
+
+    async signJWT(id: number, email: string): Promise<string> {
+        const payload = {
+            sub: id,
+            email
+        }
+        return this.jwt.signAsync(payload, {
+            secret: this.config.get('JWT_SECRET'),
+            expiresIn: '15m'
+        });
     }
 
     async signup(dto: SignupDto) {

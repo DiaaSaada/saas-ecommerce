@@ -20,6 +20,12 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+## Setup
+```bash
+$ npm install class-validator --save
+$ npm install class-transformer --save
+$ npm install --save  @nestjs/jwt @nestjs/passport passport passport-jwt
+```
 
 ## Test
 
