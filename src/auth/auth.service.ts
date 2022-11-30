@@ -27,20 +27,22 @@ export class AuthService {
         if (!pwMatch)
             throw new ForbiddenException('Incorect Creditntials');
 
-        delete user.hash
+        //delete user.hash
         return this.signJWT(user.id, user.email);
     }
 
 
-    async signJWT(id: number, email: string): Promise<string> {
+    async signJWT(id: number, email: string): Promise<{access_token: string}> {
         const payload = {
             sub: id,
             email
         }
-        return this.jwt.signAsync(payload, {
+        
+        const token =  await this.jwt.signAsync(payload, {
             secret: this.config.get('JWT_SECRET'),
             expiresIn: '15m'
         });
+        return {access_token: token}
     }
 
     async signup(dto: SignupDto) {
