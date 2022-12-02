@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable } from "@nestjs/common";
 
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "./../prisma/prisma.service";
 import { LoginDto, SignupDto } from "./dto";
 import * as argon2 from "argon2";
 import { ConfigService } from "@nestjs/config";
