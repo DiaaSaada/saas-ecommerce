@@ -23,14 +23,42 @@ model User {
   orders    Order[]
 }
 
+model Category {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name        String  @unique
+  description String
+  image       String?
+
+  //One-to-many self relations
+  parentId  Int?
+  parent    Category?  @relation("ParentCategory", fields: [parentId], references: [id])
+  childreen Category[] @relation("ParentCategory")
+
+  products Product[]
+	
+	@@map("ProductCategory")
+}
+
 model Product {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   name        String
+  sku         String  @unique
   description String
   image       String?
+
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  slider Json?
+
+
+
 }
 
 model Order {

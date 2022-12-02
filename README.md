@@ -58,4 +58,10 @@ $ npx prisma migrate dev
 $ nest g module product
 $ nest g service product --no-spec
 $ nest g controller product
+
+
+#DB seeder with faker  (node --loader ts-node/esm ./prisma/seed.ts)
+$ npm run seed
 ```
+
+
