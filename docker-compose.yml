@@ -10,5 +10,17 @@ services:
       POSTGRESS_DB: nest
     networks:
       - saas_ecommerce
+
+  test-db:
+    image: postgres:15
+    ports: 
+      - 5435:5432
+    environment:
+      POSTGRESS_USER: postgres
+      POSTGRES_PASSWORD  : 123
+      POSTGRESS_DB: nest
+    networks:
+      - saas_ecommerce
+      
 networks:
   saas_ecommerce:
