@@ -4,6 +4,7 @@ import { AppModule } from './../src/app.module';
 import { PrismaService } from './../src/prisma/prisma.service';
 import { SignupDto } from 'src/auth/dto';
 import * as pactum from 'pactum'
+import { EditUser } from 'src/user/edit-user.dto';
 
 describe('test', () => {
 
@@ -79,15 +80,30 @@ describe('test', () => {
           .expectStatus(200);
       })
     })
+
+    const dto: EditUser = {
+      email: 'diaa2@gmail.com',      
+      firstName: 'Diaa2',
+      lastName: 'Nest34',
+    };
+
+    describe('update', () => {
+      it('should return updated user', () => {
+        return pactum.spec()
+          .put('/users/edit')
+          .withBody(dto)
+          .withHeaders({
+            Authorization: 'Bearer $S{userAt}',
+          })
+          .expectStatus(200)
+          .inspect()
+          .expectBodyContains(dto.firstName)
+          .expectBodyContains(dto.email)
+          .expectBodyContains(dto.lastName);
+          
+      })
+    })
   });
 
 
 })
-
-//   it('/ (GET)', () => {
-//     return request(app.getHttpServer())
-//       .get('/')
-//       .expect(200)
-//       .expect('Hello World!');
-//   });
-// });
