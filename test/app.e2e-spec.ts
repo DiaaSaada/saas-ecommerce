@@ -20,8 +20,10 @@ describe('test', () => {
     }))
     const prisma = app.get(PrismaService)
     await prisma.cleanDB();
+    const port = 3007 ;
+    pactum.request.setBaseUrl(`http://127.0.0.1:${port}`)
     await app.init();
-    await app.listen(3007) // testing webserver for pactum to call
+    await app.listen(port) // testing webserver for pactum to call
   });
 
 
@@ -41,7 +43,7 @@ describe('test', () => {
       it('should signup', () => {
         return pactum
           .spec()
-          .post('http://127.0.0.1:3007/auth/signup')
+          .post('/auth/signup')
           .withBody(dto)
           .expectStatus(201);
       });
@@ -50,7 +52,7 @@ describe('test', () => {
     describe('sigin', () => {
       it('sigin', () => {
         return pactum.spec()
-          .post('http://127.0.0.1:3007/auth/signin')
+          .post('/auth/signin')
           .withBody(dto)
           .expectStatus(200)
           .stores('userAt', 'access_token');
@@ -63,14 +65,14 @@ describe('test', () => {
     describe('me', () => {
       it('should throw if no token provided', () => {
         return pactum.spec()
-          .get('http://127.0.0.1:3007/users/me')
+          .get('/users/me')
           .expectStatus(401);
       })
     })
     describe('me', () => {
       it('should return user', () => {
         return pactum.spec()
-          .get('http://127.0.0.1:3007/users/me')
+          .get('/users/me')
           .withHeaders({
             Authorization: 'Bearer $S{userAt}',
           })
